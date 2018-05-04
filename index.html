@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script type="text/javascript" src="map.js"></script>
+	
+	<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+	<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+	<script src="https://d3js.org/d3-array.v1.min.js"></script>
+	<script src="https://d3js.org/d3-collection.v0.1.min.js"></script>
+	<script src="https://d3js.org/d3-dispatch.v0.4.min.js"></script>
+	<script src="https://d3js.org/d3-dsv.v0.3.min.js"></script>
+	<script src="https://d3js.org/d3-request.v0.4.min.js"></script>
+	<script src="https://d3js.org/d3-queue.v3.min.js"></script>
+	<!--<link type="text/css" rel="stylesheet" href="./css/style.css">-->
+</head>
+<style>
+
+.states {
+  fill: #ccc;
+  stroke: #fff;
+}
+
+.symbol {
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+</style>
+<body>
+	<h1>College Finder</h1>
+	<div id ="map" style ="float : left"></div>
+	<div class='input' style ="float : right">
+		<label id='act'>ACT Score</label>
+		<input id='actSlider' type='range' min='0' max='36' step='1' value='36'/>
+		<p id = "output"></p>
+		<label id='sat'>SAT Score</label>
+		<input id='satSlider' type='range' min='0' max='1600' step='1' value='1600'/>
+		<button id='clear' type="button">Clear Filters</button>
+	</div>
+</body>
+</html>
