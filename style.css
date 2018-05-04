@@ -6,7 +6,7 @@
 }
 
 input[type=range] {
-	width: 50%;
+	width: 40%;
 }
 
 .slider::-webkit-slider-thumb {
@@ -14,7 +14,7 @@ input[type=range] {
     width: 15px;
     height: 15px;
     border-radius: 50%; 
-    background: #D76035;
+    background: #dd7a55;
     cursor: pointer;
 }
 
@@ -33,7 +33,7 @@ div.tooltip {
 	width: 250px;                  
 	height: 20px;                            
 	font: 12px sans-serif;        
-	background: #D76035; 
+	background: #dd7a55; 
 	color: #fff;	
 	border: 0px;      
 	border-radius: 8px;           
@@ -51,11 +51,15 @@ div.tooltip {
 
 h1 {
 	font-size: 46px;
-	margin-top: 30px;
-	color: #D76035;
+	color: #fff;
+	background-color: #dd7a55;
+	padding-bottom: 10px;
+	padding-left: 30px;
+	padding-top: 60px;
+	margin-top: 0px;
 }
 
-h1, #inputs, #info{
+#inputs, #info{
 	margin-left: 30px;
 }
 
@@ -78,13 +82,14 @@ body {
 	display: block;
 	float: left;
 	margin-top: 60px;
-
+	margin-bottom: 10px;
 }
 
 #map{
 	float: left;
 }
 
-
-
+a {
+	color: #46a184;
+}
 

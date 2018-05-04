@@ -24,15 +24,24 @@
 	
 </head>
 <body>
-	
 		<h1>College Finder</h1>
 		<div id="inputs">
 			<label id='act'>Average ACT Score:</label>
 			<span id = "actOutput" class="output"></span>
 			<input id='actSlider' class='slider' type='range' min='12' max='36' step='1' value='36'/>
+			
 			<label id='sat'>Average SAT Score:</label>
 			<span id = "satOutput" class="output"></span>
 			<input id='satSlider' class='slider' type='range' min='700' max='1600' step='10' value='1600'/>
+			
+			<label id='in'>In-state tuition:</label>
+			<span id = "inOutput" class="output"></span>
+			<input id='inSlider' class='slider' type='range' min='1000' max='55000' step='1000' value='55000'/>
+			
+			<label id='out'>Out-of-state tuition:</label>
+			<span id = "outOutput" class="output"></span>
+			<input id='outSlider' class='slider' type='range' min='1000' max='55000' step='1000' value='55000'/>
+			
 			<select id="stateList">
 				<option></option>
 				<option value="AL">Alabama</option>
@@ -1326,6 +1335,5 @@
 		</div>
 		<div id="map"></div>
 		<div id="info">Click on a university to view additional information.</div>
-	
 </body>
 </html>
