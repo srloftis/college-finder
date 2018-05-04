@@ -18,10 +18,14 @@ $(function() {
 			.append("svg")
 				.attr("width", width)
 				.attr("height", height);
+		
+		// Append Div for tooltip to SVG
+		var div = d3.select("#map")
+		    .append("div")   
+    		.attr("class", "tooltip")               
+    		.style("opacity", 0);
 				
 		var projection = d3.geo.albersUsa();
-			//.translate([width/2, height/2])    
-			//.scale([1000]);  
 			
 		var path = d3.geo.path().projection(projection);	
 		
@@ -41,63 +45,92 @@ $(function() {
 			  .datum(topojson.feature(states, states.objects.usStates))
 			  .attr("d", path);
 			
+			var info = document.getElementById("info");
 			
 			var points = svg.selectAll(".pin")
 				.data(data)
 				.enter().append("circle", ".pin")
 				.attr("r", 3)
+				.style("fill", "#102E24")
 				.attr("cx", function(d) {
 					return projection([d.LONGITUDE, d.LATITUDE])[0];
 				})
 				.attr("cy", function(d) {
 					return projection([d.LONGITUDE, d.LATITUDE])[1];
+				})
+				 .on("mouseover", function(d) {		
+					div.transition()		
+						.duration(200)		
+						.style("opacity", .9);		
+					div.html(d.INSTNM)	
+						.style("left", (d3.event.pageX) + "px")		
+						.style("top", (d3.event.pageY - 28) + "px");	
+					d3.select(this).attr("r", 6).style("fill", "#D76035");
+				})					
+				.on("mouseout", function(d) {		
+					div.transition()		
+						.duration(500)		
+						.style("opacity", 0);	
+					d3.select(this).attr("r", 3).style("fill", "#102E24");
+				})
+				.on("click", function(d) {
+					info.innerHTML = d.INSTNM;
 				});
+
 			
 			var actSlider = document.getElementById("actSlider");
 			var satSlider = document.getElementById("satSlider");
-			var output = document.getElementById("output");
-			output.innerHTML = actSlider.value; // Display the default slider value
-
-			/*
-			// Update the current slider value (each time you drag the slider handle)
-			actSlider.oninput = function() {
-				output.innerHTML = actSlider.value;
-				//points.style("fill", "red");
-				
-				points.attr("visibility", function(d) {
-					return d.ACTCMMID >= actSlider.value ? "hidden" : "visible";
-
-				});
-				
-			}
+			var actOutput = document.getElementById("actOutput");
+			var satOutput = document.getElementById("satOutput");
+			var stateList = document.getElementById("stateList");
+			var collegeList = document.getElementById("collegeList");
 			
-			// Update the current slider value (each time you drag the slider handle)
-			satSlider.oninput = function() {
-				points.attr("visibility", function(d) {
-					return d.SAT_AVG <= satSlider.value ? "visible" : "hidden";
-				});
-				
-			}
-			
-*/
+			actOutput.innerHTML = actSlider.value + " or lower"; // Display the default slider value
+			satOutput.innerHTML = satSlider.value + " or lower"; // Display the default slider value
+
 			clear.onclick = function(){
 				points.attr("visibility", "visible");
 				actSlider.value = 36;
 				satSlider.value = 1600;
+				stateList.value = "";
+				collegeList.value = "";
+				info.innerHTML = "Click on a university to view additional information.";
+				
 			}
 			
 			actSlider.oninput = function() {
-				slider(actSlider);
+				slider(actSlider, actOutput);
 			}
 			
 			satSlider.oninput = function() {
-				slider(satSlider);
+				slider(satSlider, satOutput);
 			}
 			
-			function slider(sliderID){
-				output.innerHTML = sliderID.value;
+			stateList.onchange = function() {
+				slider(stateList, "")
+			}
+			
+			collegeList.onchange = function() {
+				slider(collegeList, "")
+			}
+			
+			function slider(slider, output){
+				if (output != ""){
+					output.innerHTML = slider.value + " or lower";
+				}
 				points.attr("visibility", function(d) {
-					return d.SAT_AVG <= satSlider.value && d.ACTCMMID <= actSlider.value ? "visible" : "hidden";
+					if (stateList.value == "" && collegeList.value == ""){
+						return d.SAT_AVG <= satSlider.value && d.ACTCMMID <= actSlider.value ? "visible" : "hidden";
+					}
+					else if (collegeList.value == ""){
+						return d.SAT_AVG <= satSlider.value && d.ACTCMMID <= actSlider.value && d.STABBR == stateList.value ? "visible" : "hidden";
+					}
+					else if (stateList.value == ""){
+						return d.SAT_AVG <= satSlider.value && d.ACTCMMID <= actSlider.value && d.INSTNM == collegeList.value ? "visible" : "hidden";
+					}
+					else {
+						return d.SAT_AVG <= satSlider.value && d.ACTCMMID <= actSlider.value && d.INSTNM == collegeList.value && d.STABBR == stateList.value ? "visible" : "hidden";
+					}
 				});
 			}
 		}
